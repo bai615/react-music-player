@@ -1,3 +1,5 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     mode: 'development',// production
     context:__dirname+"/app", //源文件目录
@@ -11,6 +13,7 @@ module.exports = {
     module:{
         rules:[
             {
+                //test:/\.(js|jsx)$/,
                 test:/\.jsx?$/,
                 exclude: /node_modules/,
                 use: [{
@@ -22,6 +25,17 @@ module.exports = {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.less/,
+                use: ["style-loader", "css-loader", "less-loader"]
+            }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.tpl.html',
+            inject: 'body',
+            filename: './index.html'
+        })
+    ]
 }
