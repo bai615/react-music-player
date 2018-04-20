@@ -3,7 +3,7 @@ import Header from './components/header'
 import Player from "./page/player";
 import {MUSIC_LIST} from './config/musiclist'
 import MusicList from './page/musiclist'
-import {Route, Router, Switch} from 'react-router'
+import {Router, IndexRoute, Link, Route, hashHistory} from 'react-router'
 
 
 class App extends React.Component {
@@ -32,7 +32,7 @@ class App extends React.Component {
         return (
             <div>
                 <Header/>
-                {React.cloneElement(this.props.children, this.state)}
+                { React.cloneElement(this.props.children, this.state) }
             </div>
         );
     }
@@ -42,11 +42,11 @@ class Root extends React.Component {
 
     render() {
         return (
-            <Router history={history}>
-                <Switch>
-                    <Route path="/" component={App}></Route>
+            <Router history={hashHistory}>
+                <Route path="/" component={App}>
+                    <IndexRoute component={Player}></IndexRoute>
                     <Route path='/list' component={MusicList}></Route>
-                </Switch>
+                </Route>
             </Router>
         );
     }
