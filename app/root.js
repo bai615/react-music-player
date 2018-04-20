@@ -1,8 +1,18 @@
 import React from 'react'
 import Header from './components/header'
 import Player from "./page/player";
+import { MUSIC_LIST } from './config/musiclist'
 
 class Root extends React.Component {
+
+    constructor() {
+        super();
+        console.log(MUSIC_LIST);
+        this.state = {
+            currentMusicItem: MUSIC_LIST[0] // 当前播放
+        }
+
+    }
 
     componentDidMount() {
         $('#player').jPlayer({
@@ -20,7 +30,9 @@ class Root extends React.Component {
         return (
             <div>
                 <Header/>
-                <Player></Player>
+                <Player
+                    currentMusicItem={this.state.currentMusicItem}
+                ></Player>
             </div>
         );
     }
