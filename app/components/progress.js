@@ -3,7 +3,7 @@ import './progress.less'
 
 class Progress extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         // ES6 类中函数必须手动绑定
@@ -22,7 +22,8 @@ class Progress extends React.Component {
     render() {
         return (
             <div className="component-progress row" ref="progressBar" onClick={this.changeProgress}>
-                <div className="progress" style={{width: `${this.props.progress}%`, background: `${this.props.barColor}`}}></div>
+                <div className="progress"
+                     style={{width: `${this.props.progress}%`, background: `${this.props.barColor}`}}></div>
             </div>
         );
     }
