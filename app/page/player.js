@@ -10,9 +10,11 @@ class Player extends React.Component {
             volume: 0, // 初始化音量数据
             progress: 0,// 初始化进度条数据
             duration: null, // 音频总时间
+            isPlay: true, // 是否播放，默认播放
         }
 
         this.progressChangeHandler = this.progressChangeHandler.bind(this);
+        this.play = this.play.bind(this)
     }
 
     componentDidMount() {
@@ -37,6 +39,16 @@ class Player extends React.Component {
 
     changeVolumeHandler(progress){
         $('#player').jPlayer('volume', progress);
+    }
+
+    play(){
+        if(this.state.isPlay){
+            $('#player').jPlayer('pause');
+        }else{
+            $('#player').jPlayer('play');
+        }
+
+        this.state.isPlay = !this.state.isPlay;
     }
 
     render() {
@@ -72,7 +84,7 @@ class Player extends React.Component {
                         <div className="mt35 row">
                             <div>
                                 <i className="icon prev"></i>
-                                <i className="icon ml20 play"></i>
+                                <i className={`icon ml20 ${this.state.isPlay ? 'pause' : 'play'}`} onClick={this.play}></i>
                                 <i className="icon next ml20"></i>
                             </div>
                             <div className="-col-auto">
