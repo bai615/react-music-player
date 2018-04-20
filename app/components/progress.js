@@ -2,12 +2,14 @@ import React from 'react'
 import './progress.less'
 
 class Progress extends React.Component {
-    constructor(){
-        super();
+
+    constructor(props){
+        super(props);
 
         // ES6 类中函数必须手动绑定
         this.changeProgress = this.changeProgress.bind(this);
     }
+
     changeProgress(e) {
         // console.log(e.clientX);
         // console.log(this.refs.progressBar);
@@ -20,10 +22,14 @@ class Progress extends React.Component {
     render() {
         return (
             <div className="component-progress row" ref="progressBar" onClick={this.changeProgress}>
-                <div className="progress" style={{width: `${this.props.progress}%`}}></div>
+                <div className="progress" style={{width: `${this.props.progress}%`, background: `${this.props.barColor}`}}></div>
             </div>
         );
     }
 }
+
+Progress.defaultProps = {
+    barColor: '#2f9842'
+};
 
 export default Progress;

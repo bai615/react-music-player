@@ -46,6 +46,7 @@ class Root extends React.Component {
                 <Progress
                     progress={this.state.progress}
                     onProgressChange={this.progressChangeHandler}
+                    barColor="#ff0000"
                 ></Progress>
             </div>
         );
