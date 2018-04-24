@@ -5,13 +5,13 @@ import PubSub from 'pubsub-js';
 class MusicListItem extends React.Component {
 
     playMusic(musicItem){
-        // console.log('PLAY_MUSIC');
+        console.log('PLAY_MUSIC');
         PubSub.publish('PLAY_MUSIC', musicItem);
     }
 
     deleteMusic(musicItem, e){
         e.stopPropagation();// 禁止冒泡事件
-        // console.log('DELETE_MUSIC');
+        console.log('DELETE_MUSIC');
         PubSub.publish('DELETE_MUSIC', musicItem);
     }
 

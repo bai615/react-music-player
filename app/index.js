@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom"
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import Header from './components/header'
-// import {MUSIC_LIST} from "./config/musiclist";
-// import MusicList from './page/musiclist'
-// import Player from "./page/player";
-// import PubSub from "pubsub-js";
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import Header from './components/header'
+import {MUSIC_LIST} from "./config/musiclist";
+import MusicList from './page/musiclist'
+import Player from "./page/player";
+import PubSub from "pubsub-js";
 
 import Root from './root'
 
@@ -13,8 +13,8 @@ import Root from './root'
 // https://github.com/ReactTraining/react-router
 // http://www.ruanyifeng.com/blog/2016/05/react_router.html
 
-/*
-class RootComponent extends React.Component{
+
+class AppComponent extends React.Component {
     constructor() {
         super();
         console.log(MUSIC_LIST);
@@ -57,40 +57,39 @@ class RootComponent extends React.Component{
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         PubSub.unsubscribe('DELETE_MUSIC');
         PubSub.unsubscribe('PLAY_MUSIC');
     }
 
-    render(){
+    render() {
         return (
             <div>
-                <Header/>
-            <Router>
-                <div>
-                    <ul>
-                        <li>
-                            <Link to="/">Home (Player)</Link>
-                        </li>
-                        <li>
-                            <Link to="/list">Music List</Link>
-                        </li>
+                <Router>
+                    <div>
+                        <ul>
+                            <li>
+                                <Link to="/">Home (Player)</Link>
+                            </li>
+                            <li>
+                                <Link to="/list">Music List</Link>
+                            </li>
 
-                    </ul>
+                        </ul>
 
-                    <hr />
+                        <hr />
 
-                    <Route exact path="/" component={PlayMusicComponent} />
-                    <Route path="/list" component={MusicListComponent} />
+                        <Route exact path="/" component={PlayMusicComponent} />
+                        <Route path="/list" component={MusicListComponent} />
 
-                </div>
-            </Router>
+                    </div>
+                </Router>
             </div>
         );
     }
 }
 
-class PlayMusicComponent extends React.Component{
+class PlayMusicComponent extends React.Component {
     constructor() {
         super();
         console.log(MUSIC_LIST);
@@ -99,7 +98,8 @@ class PlayMusicComponent extends React.Component{
             currentMusicItem: MUSIC_LIST[0] // 当前播放
         }
     }
-    render(){
+
+    render() {
         return (
             <div>
                 <Player
@@ -111,7 +111,7 @@ class PlayMusicComponent extends React.Component{
     }
 }
 
-class MusicListComponent extends React.Component{
+class MusicListComponent extends React.Component {
     constructor() {
         super();
         console.log(MUSIC_LIST);
@@ -120,7 +120,8 @@ class MusicListComponent extends React.Component{
             currentMusicItem: MUSIC_LIST[0] // 当前播放
         }
     }
-    render(){
+
+    render() {
         return (
             <div>
                 <MusicList
@@ -132,10 +133,38 @@ class MusicListComponent extends React.Component{
         );
     };
 }
-*/
+
+class RootComponent extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header/>
+                <Router>
+                    <div>
+                        <ul>
+                            <li>
+                                <Link to="/">Home (Player)</Link>
+                            </li>
+                            <li>
+                                <Link to="/list">Music List</Link>
+                            </li>
+
+                        </ul>
+
+                        <hr/>
+
+                            <Route exact path="/" component={PlayMusicComponent}/>
+                            <Route path="/list" component={MusicListComponent}/>
+
+                    </div>
+                </Router>
+            </div>
+        );
+    }
+}
 
 var oBox = document.getElementById("box");
-ReactDOM.render(<Root/>, oBox);
+ReactDOM.render(<AppComponent/>, oBox);
 
 /*
 class MyContainer extends React.Component {
@@ -212,4 +241,126 @@ ReactDOM.render(
     )
     , document.getElementById('box'))
 
+*/
+
+/*
+class MyContainer extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            count: 1
+        }
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.state.count++;
+        this.setState({
+            count: this.state.count++
+        })
+        console.log(this.state)
+    }
+
+    render() {
+        const childrenWithProps = React.Children.map(
+            this.props.children, child =>
+                React.cloneElement(child,
+                    {
+                        parentState: this.state.count,
+                        handleClick: this.handleClick
+                    }
+                ));
+        return (
+            <div style={{border: "1px solid blue"}}>
+                <span>父容器:</span>
+                {childrenWithProps}
+            </div>
+        )
+    }
+}
+
+class MySub extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            flag: false
+        }
+    }
+
+    render() {
+        return (
+            <div style={{margin: "15px", border: "1px solid red"}}>
+                子元素-1:
+                <br/>
+                父组件属性count值-1: {this.props.parentState}
+                <br/>
+                <span onClick={() => this.props.handleClick()}
+                      style={{
+                          display: "inline-block",
+                          padding: "3px 5px",
+                          color: "#ffffff",
+                          background: "green",
+                          borderRadius: "3px",
+                          cursor: "pointer"
+                      }}
+                >click me</span>
+            </div>
+        )
+    }
+}
+
+class MySub2 extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            flag: false
+        }
+    }
+
+    render() {
+        return (
+            <div style={{margin: "15px", border: "1px solid red"}}>
+                子元素-2:
+                <br/>
+                父组件属性count值-2: {this.props.parentState}
+                <br/>
+                <span onClick={() => this.props.handleClick()}
+                      style={{
+                          display: "inline-block",
+                          padding: "3px 5px",
+                          color: "#ffffff",
+                          background: "green",
+                          borderRadius: "3px",
+                          cursor: "pointer"
+                      }}
+                >click me</span>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(
+    (
+        <Router>
+            <div>
+                <ul>
+                    <li>
+                        <Link to="/">Home (Player)</Link>
+                    </li>
+                    <li>
+                        <Link to="/list">Music List</Link>
+                    </li>
+
+                </ul>
+
+                <hr />
+
+                <MyContainer>
+                    <Route exact={true} path="/" component={MySub}/>
+                    <Route path="/list" component={MySub2}/>
+                </MyContainer>
+            </div>
+        </Router>
+    )
+    , document.getElementById('box'))
 */

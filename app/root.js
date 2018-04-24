@@ -1,10 +1,12 @@
 import React from 'react'
 import Header from './components/header'
 import {MUSIC_LIST} from './config/musiclist'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router,HashRouter, Route, Link } from "react-router-dom";
 import PubSub from "pubsub-js";
-import PlayerPage from './page/player';
-import listPage from './page/musiclist';
+// import PlayerPage from './page/player';
+// import listPage from './page/musiclist';
+import MusicList from './page/musiclist'
+import Player from "./page/player";
 
 class App extends React.Component {
     constructor() {
@@ -61,24 +63,69 @@ class App extends React.Component {
         //         {React.cloneElement(this.props.children, this.state)}
         //     </div>
         // );
-        const currentState = this.state;
-        const newChildren = React.Children.map(this.props.children, child =>
-                React.cloneElement(
-                    child,
-                    {
-                        currentMusicItem: currentState.currentMusicItem,
-                        musicList: currentState.musicList,
-                    }
-                ));
+
+        // const newChildren = React.Children.map(this.props.children, child =>
+        //         React.cloneElement(
+        //             child,
+        //             {
+        //                 currentMusicItem: this.state.currentMusicItem,
+        //                 musicList: this.state.musicList,
+        //             }
+        //         ));
 
         return (
             <div>
-                <Header/>
-                {newChildren}
+                <Player
+                    currentMusicItem={this.state.currentMusicItem}
+                >
+                </Player>
             </div>
         );
 
     }
+}
+
+class PlayMusicComponent extends React.Component{
+    constructor() {
+        super();
+        console.log(MUSIC_LIST);
+        this.state = {
+            musicList: MUSIC_LIST, // 播放列表
+            currentMusicItem: MUSIC_LIST[0] // 当前播放
+        }
+    }
+    render(){
+        return (
+            <div>
+                <Player
+                    currentMusicItem={this.state.currentMusicItem}
+                >
+                </Player>
+            </div>
+        );
+    }
+}
+
+class MusicListComponent extends React.Component{
+    constructor() {
+        super();
+        console.log(MUSIC_LIST);
+        this.state = {
+            musicList: MUSIC_LIST, // 播放列表
+            currentMusicItem: MUSIC_LIST[0] // 当前播放
+        }
+    }
+    render(){
+        return (
+            <div>
+                <MusicList
+                    currentMusicItem={this.state.currentMusicItem}
+                    musicList={this.state.musicList}
+                >
+                </MusicList>
+            </div>
+        );
+    };
 }
 
 class Root extends React.Component {
@@ -101,10 +148,10 @@ class Root extends React.Component {
 
                         <hr />
 
-                        <App>
-                            <Route path="/" component={PlayerPage}/>
-                            <Route path="/list" component={listPage} />
-                        </App>
+                        <Route path="/" component={App}>
+                            <Route exact={true} path="/play" component={PlayMusicComponent}/>
+                            <Route path="/list" component={MusicListComponent} />
+                        </Route>
 
                     </div>
                 </Router>
