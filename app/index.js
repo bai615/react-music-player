@@ -34,6 +34,22 @@ class AppComponent extends React.Component {
         });
     }
 
+    playNext(type = 'next'){
+        let index = this.findMusicIndex(this.state.currentMusicItem);
+        let newIndex = null;
+        let musicListLength = this.state.musicList.length;
+        if(type === 'next'){
+            newIndex = (index + 1) % musicListLength;
+        }else{
+            newIndex = (index - 1 + musicListLength) % musicListLength;
+        }
+        this.playMusic(this.state.musicList[newIndex]);
+    }
+
+    findMusicIndex(musicItem){
+        return this.state.musicList.indexOf(musicItem);
+    }
+
     componentDidMount() {
         $('#player').jPlayer({
             supplied: 'mp3',
@@ -41,6 +57,12 @@ class AppComponent extends React.Component {
         });
         // 播放歌曲
         this.playMusic(this.state.currentMusicItem);
+        // 监听音乐播放完毕
+        $('#player').bind($.jPlayer.event.ended, (e) => {
+            console.log('play end');
+            // 播放下一曲
+            this.playNext();
+        });
 
         PubSub.subscribe('DELETE_MUSIC', (msg, musicItem) => {
             console.log('DELETE_MUSIC-ACT');
@@ -68,6 +90,7 @@ class AppComponent extends React.Component {
     componentWillUnmount() {
         PubSub.unsubscribe('DELETE_MUSIC');
         PubSub.unsubscribe('PLAY_MUSIC');
+        $('#player').unbind($.jPlayer.event.ended);
     }
 
     render() {
