@@ -7,7 +7,7 @@ import MusicList from './page/musiclist'
 import Player from "./page/player";
 import PubSub from "pubsub-js";
 
-import Root from './root'
+//import Root from './root';
 
 // https://reacttraining.com/react-router/web/example/basic
 // https://github.com/ReactTraining/react-router
@@ -114,6 +114,7 @@ class AppComponent extends React.Component {
     render() {
         return (
             <div>
+                <Header/>
                 <Router>
                     <div>
                         <ul>
