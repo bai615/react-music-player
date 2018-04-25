@@ -7,13 +7,13 @@ import MusicList from './page/musiclist'
 import Player from "./page/player";
 import PubSub from "pubsub-js";
 
-import Root from './root'
+// import Root from './root'
 
 // https://reacttraining.com/react-router/web/example/basic
 // https://github.com/ReactTraining/react-router
 // http://www.ruanyifeng.com/blog/2016/05/react_router.html
 
-
+/*
 class AppComponent extends React.Component {
     constructor() {
         super();
@@ -196,6 +196,7 @@ class RootComponent extends React.Component {
 
 var oBox = document.getElementById("box");
 ReactDOM.render(<AppComponent/>, oBox);
+*/
 
 /*
 class MyContainer extends React.Component {
@@ -395,3 +396,8 @@ ReactDOM.render(
     )
     , document.getElementById('box'))
 */
+
+import SinglePageMusic from "./singlePageMusic/singlepagemusic";
+
+var oBox = document.getElementById("box");
+ReactDOM.render(<SinglePageMusic/>, oBox);
