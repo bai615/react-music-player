@@ -72,6 +72,16 @@ class App extends React.Component {
         PubSub.subscribe('PLAY_MUSIC', (msg, musicItem) => {
             this.playMusic(musicItem);
         });
+
+        // 订阅播放上一曲
+        PubSub.subscribe('PLAY_PREV', () => {
+            this.playNext('prev');
+        })
+
+        // 订阅播放下一曲
+        PubSub.subscribe('PLAY_NEXT', () => {
+            this.playNext();
+        })
     }
 
     componentWillUnmount() {
@@ -81,6 +91,10 @@ class App extends React.Component {
         PubSub.unsubscribe('PLAY_MUSIC');
         // 解绑音乐播放结束监听
         $('#player').unbind($.jPlayer.event.ended);
+        // 解绑播放上一曲
+        PubSub.unsubscribe('PLAY_PREV');
+        // 解绑播放下一曲
+        PubSub.unsubscribe('PLAY_NEXT');
     }
 
     render() {

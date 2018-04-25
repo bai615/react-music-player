@@ -1,6 +1,7 @@
 import React from 'react'
 import Progress from '../components/progress'
 import './player.less'
+import PubSub from "pubsub-js";
 
 class Player extends React.Component {
 
@@ -51,6 +52,16 @@ class Player extends React.Component {
         this.state.isPlay = !this.state.isPlay;
     }
 
+    playPrev(){
+        console.log('PLAY_PREV');
+        PubSub.publish('PLAY_PREV');
+    }
+
+    playNext(){
+        console.log('PLAY_NEXT');
+        PubSub.publish('PLAY_NEXT');
+    }
+
     render() {
         return (
             <div className="player-page">
@@ -82,9 +93,9 @@ class Player extends React.Component {
                         </div>
                         <div className="mt35 row">
                             <div>
-                                <i className="icon prev"></i>
+                                <i className="icon prev" onClick={this.playPrev}></i>
                                 <i className={`icon ml20 ${this.state.isPlay ? 'pause' : 'play'}`} onClick={this.play}></i>
-                                <i className="icon next ml20"></i>
+                                <i className="icon next ml20" onClick={this.playNext}></i>
                             </div>
                             <div className="-col-auto">
                                 <i className="icon repeat-cycle"></i>
