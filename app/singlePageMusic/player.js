@@ -13,10 +13,12 @@ class Player extends React.Component {
             duration: null, // 音频总时间
             isPlay: true, // 是否播放，默认播放
             leftTime: '',
-        }
+        };
 
         this.progressChangeHandler = this.progressChangeHandler.bind(this);
-        this.play = this.play.bind(this)
+        this.play = this.play.bind(this);
+        this.playPrev = this.playPrev.bind(this);
+        this.playNext = this.playNext.bind(this);
     }
 
     componentDidMount() {
@@ -57,11 +59,13 @@ class Player extends React.Component {
     playPrev(){
         console.log('PLAY_PREV');
         PubSub.publish('PLAY_PREV');
+        this.state.isPlay = true;
     }
 
     playNext(){
         console.log('PLAY_NEXT');
         PubSub.publish('PLAY_NEXT');
+        this.state.isPlay = true;
     }
 
     formatTime(time){
