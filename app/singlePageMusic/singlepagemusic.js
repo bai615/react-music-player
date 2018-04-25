@@ -58,7 +58,7 @@ class App extends React.Component {
             this.playNext();
         });
 
-        // 订阅音乐删除
+        // 订阅音乐删除事件
         PubSub.subscribe('DELETE_MUSIC', (msg, musicItem) => {
             this.state.musicList = this.state.musicList.filter(item => {
                 return item !== musicItem;
@@ -68,20 +68,20 @@ class App extends React.Component {
             });
         });
 
-        // 订阅音乐播放
+        // 订阅音乐播放事件
         PubSub.subscribe('PLAY_MUSIC', (msg, musicItem) => {
             this.playMusic(musicItem);
         });
 
-        // 订阅播放上一曲
+        // 订阅播放上一曲事件
         PubSub.subscribe('PLAY_PREV', () => {
             this.playNext('prev');
-        })
+        });
 
-        // 订阅播放下一曲
+        // 订阅播放下一曲事件
         PubSub.subscribe('PLAY_NEXT', () => {
             this.playNext();
-        })
+        });
     }
 
     componentWillUnmount() {
@@ -91,9 +91,9 @@ class App extends React.Component {
         PubSub.unsubscribe('PLAY_MUSIC');
         // 解绑音乐播放结束监听
         $('#player').unbind($.jPlayer.event.ended);
-        // 解绑播放上一曲
+        // 解绑播放上一曲订阅
         PubSub.unsubscribe('PLAY_PREV');
-        // 解绑播放下一曲
+        // 解绑播放下一曲订阅
         PubSub.unsubscribe('PLAY_NEXT');
     }
 

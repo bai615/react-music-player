@@ -7,13 +7,13 @@ import MusicList from './page/musiclist'
 import Player from "./page/player";
 import PubSub from "pubsub-js";
 
-// import Root from './root'
+import Root from './root'
 
 // https://reacttraining.com/react-router/web/example/basic
 // https://github.com/ReactTraining/react-router
 // http://www.ruanyifeng.com/blog/2016/05/react_router.html
 
-/*
+//*
 class AppComponent extends React.Component {
     constructor() {
         super();
@@ -28,6 +28,8 @@ class AppComponent extends React.Component {
         $('#player').jPlayer('setMedia', {
             mp3: musicItem.file
         }).jPlayer('play');
+
+        console.log(musicItem);
 
         this.setState({
             currentMusicItem: musicItem
@@ -51,12 +53,15 @@ class AppComponent extends React.Component {
     }
 
     componentDidMount() {
+        // 初始化jPlayer配置
         $('#player').jPlayer({
             supplied: 'mp3',
             wmode: 'window'
         });
+
         // 播放歌曲
         this.playMusic(this.state.currentMusicItem);
+
         // 监听音乐播放完毕
         $('#player').bind($.jPlayer.event.ended, (e) => {
             console.log('play end');
@@ -64,33 +69,46 @@ class AppComponent extends React.Component {
             this.playNext();
         });
 
+        // 订阅音乐删除事件
         PubSub.subscribe('DELETE_MUSIC', (msg, musicItem) => {
             console.log('DELETE_MUSIC-ACT');
             console.log(musicItem);
-            // this.setState({
-            //     musicList: this.state.musicList.filter(item => {
-            //         console.log('====================================')
-            //         console.log(item)
-            //         console.log(musicItem)
-            //         console.log(item !== musicItem)
-            //         console.log('====================================')
-            //         return item !== musicItem;
-            //     })
-            // });
             this.state.musicList = this.state.musicList.filter(item => {
                 return item !== musicItem;
             });
             console.log(this.state.musicList);
+            this.setState({
+               musicList: this.state.musicList
+            });
         });
+
+        // 订阅音乐播放事件
         PubSub.subscribe('PLAY_MUSIC', (msg, musicItem) => {
             this.playMusic(musicItem);
+        });
+
+        // 订阅播放上一曲事件
+        PubSub.subscribe('PLAY_PREV', () => {
+            this.playNext('prev');
+        });
+
+        // 订阅播放下一曲事件
+        PubSub.subscribe('PLAY_NEXT', () => {
+            this.playNext();
         });
     }
 
     componentWillUnmount() {
+        // 解绑删除音乐订阅
         PubSub.unsubscribe('DELETE_MUSIC');
+        // 解绑播放音乐订阅
         PubSub.unsubscribe('PLAY_MUSIC');
+        // 解绑音乐播放结束监听
         $('#player').unbind($.jPlayer.event.ended);
+        // 解绑播放上一曲订阅
+        PubSub.unsubscribe('PLAY_PREV');
+        // 解绑播放下一曲订阅
+        PubSub.unsubscribe('PLAY_NEXT');
     }
 
     render() {
@@ -196,7 +214,7 @@ class RootComponent extends React.Component {
 
 var oBox = document.getElementById("box");
 ReactDOM.render(<AppComponent/>, oBox);
-*/
+
 
 /*
 class MyContainer extends React.Component {
@@ -397,7 +415,10 @@ ReactDOM.render(
     , document.getElementById('box'))
 */
 
+/*
+// 单个页面音乐播放器
 import SinglePageMusic from "./singlePageMusic/singlepagemusic";
 
 var oBox = document.getElementById("box");
 ReactDOM.render(<SinglePageMusic/>, oBox);
+//*/
