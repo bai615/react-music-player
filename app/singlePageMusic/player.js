@@ -12,6 +12,7 @@ class Player extends React.Component {
             progress: 0,// 初始化进度条数据
             duration: null, // 音频总时间
             isPlay: true, // 是否播放，默认播放
+            leftTime: '',
         }
 
         this.progressChangeHandler = this.progressChangeHandler.bind(this);
@@ -24,6 +25,7 @@ class Player extends React.Component {
             this.setState({
                 volume: e.jPlayer.options.volume * 100,
                 progress: e.jPlayer.status.currentPercentAbsolute,
+                leftTime: this.formatTime(this.state.duration * (1 - e.jPlayer.status.currentPercentAbsolute / 100)),
             });
         })
     }
@@ -62,6 +64,15 @@ class Player extends React.Component {
         PubSub.publish('PLAY_NEXT');
     }
 
+    formatTime(time){
+        time = Math.floor(time);
+        let miniutes = Math.floor(time / 60);
+        let seconds = Math.floor(time % 60);
+
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        return `${miniutes}:${seconds}`;
+    }
+
     render() {
         return (
             <div className="player-page">
@@ -70,7 +81,7 @@ class Player extends React.Component {
                         <h2 className="music-title">{this.props.currentMusicItem.title}</h2>
                         <h3 className="music-artist mt10">{this.props.currentMusicItem.artist}</h3>
                         <div className="row mt20">
-                            <div className="left-time -col-auto">-2:00</div>
+                            <div className="left-time -col-auto">-{this.state.leftTime}</div>
                             <div className="volume-controller">
                                 <i className="icon-volume rt" style={{top: 5, left: -5}}></i>
                                 <div className="volume-wrapper">
