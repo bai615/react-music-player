@@ -30,6 +30,13 @@ class Player extends React.Component {
                 leftTime: this.formatTime(this.state.duration * (1 - e.jPlayer.status.currentPercentAbsolute / 100)),
             });
         })
+
+        // 订阅音乐播放事件
+        PubSub.subscribe('PLAY_MUSIC', (msg, musicItem) => {
+            this.setState({
+                isPlay: true
+            });
+        });
     }
 
     componentWillUnmount() {
